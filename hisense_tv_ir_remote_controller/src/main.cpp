@@ -89,7 +89,7 @@ void setup() {
   wifi_wificomponent = new wifi::WiFiComponent();
   wifi_wificomponent->set_use_address("hisense_tv_ir_remote_controller.local");
   wifi::WiFiAP wifi_wifiap_2 = wifi::WiFiAP();
-  wifi_wifiap_2.set_ssid("your.widi.ssid");
+  wifi_wifiap_2.set_ssid("your.wifi.ssid");
   wifi_wifiap_2.set_password("your.wifi.password");
   wifi_wifiap_2.set_priority(0.0f);
   wifi_wificomponent->add_sta(wifi_wifiap_2);
@@ -112,7 +112,7 @@ void setup() {
   //   num_attempts: 10
   ota_otacomponent = new ota::OTAComponent();
   ota_otacomponent->set_port(8266);
-  ota_otacomponent->set_auth_password("your.ota.passwod");
+  ota_otacomponent->set_auth_password("your.ota.password");
   App.register_component(ota_otacomponent);
   ota_otacomponent->start_safe_mode(10, 300000);
   // api:
@@ -123,7 +123,7 @@ void setup() {
   api_apiserver = new api::APIServer();
   App.register_component(api_apiserver);
   api_apiserver->set_port(6053);
-  api_apiserver->set_password("your.api.passwod");
+  api_apiserver->set_password("your.api.password");
   api_apiserver->set_reboot_timeout(900000);
   // remote_receiver:
   //   pin:
