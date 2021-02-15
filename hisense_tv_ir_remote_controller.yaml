@@ -38,6 +38,7 @@ remote_transmitter:
 switch:
   - platform: template
     name: "Hisense TV IR Remote Controller"
+    icon: "mdi:led-variant-on"
     turn_on_action:
       - remote_transmitter.transmit_nec:
           address: 0x00FD
