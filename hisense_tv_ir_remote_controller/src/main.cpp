@@ -114,7 +114,7 @@ void setup() {
   ota_otacomponent->set_port(8266);
   ota_otacomponent->set_auth_password("your.ota.password");
   App.register_component(ota_otacomponent);
-  ota_otacomponent->start_safe_mode(10, 300000);
+  if (ota_otacomponent->should_enter_safe_mode(10, 300000)) return;
   // api:
   //   password: !secret 'hass_ota_password'
   //   id: api_apiserver
@@ -177,6 +177,7 @@ void setup() {
   // switch.template:
   //   platform: template
   //   name: Hisense TV IR Remote Controller
+  //   icon: mdi:led-variant-on
   //   turn_on_action:
   //     then:
   //     - remote_transmitter.transmit_nec:
@@ -213,6 +214,7 @@ void setup() {
   App.register_component(remote_transmitter_remotetransmittercomponent);
   App.register_switch(template__templateswitch);
   template__templateswitch->set_name("Hisense TV IR Remote Controller");
+  template__templateswitch->set_icon("mdi:led-variant-on");
   remote_transmitter_remotetransmittercomponent->set_carrier_duty_percent(70);
   automation_2 = new Automation<>(template__templateswitch->get_turn_off_trigger());
   remote_base_necaction_2 = new remote_base::NECAction<>();
