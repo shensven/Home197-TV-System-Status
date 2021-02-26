@@ -10,3 +10,6 @@
 ```
 esphome hisense_tv_ir_remote_controller.yaml run
 ```
+```
+esphome hisense_tv_is_on_monitor.yaml run
+```
