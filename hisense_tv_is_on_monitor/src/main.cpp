@@ -19,14 +19,15 @@ void setup() {
   //   name: hisense_tv_is_on_monitor
   //   platform: ESP8266
   //   board: d1_mini
-  //   arduino_version: espressif8266@2.6.2
+  //   arduino_version: platformio/espressif8266@2.6.2
   //   build_path: hisense_tv_is_on_monitor
   //   platformio_options: {}
   //   esp8266_restore_from_flash: false
   //   board_flash_mode: dout
   //   includes: []
   //   libraries: []
-  App.pre_setup("hisense_tv_is_on_monitor", __DATE__ ", " __TIME__);
+  //   name_add_mac_suffix: false
+  App.pre_setup("hisense_tv_is_on_monitor", __DATE__ ", " __TIME__, false);
   // logger:
   //   id: logger_logger
   //   baud_rate: 115200

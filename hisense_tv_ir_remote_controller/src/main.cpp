@@ -27,6 +27,7 @@ remote_base::RawDumper *remote_base_rawdumper;
 remote_base::RC5Dumper *remote_base_rc5dumper;
 remote_base::RCSwitchDumper *remote_base_rcswitchdumper;
 remote_base::SamsungDumper *remote_base_samsungdumper;
+remote_base::Samsung36Dumper *remote_base_samsung36dumper;
 remote_base::PanasonicDumper *remote_base_panasonicdumper;
 // ========== AUTO GENERATED INCLUDE BLOCK END ==========="
 
@@ -38,14 +39,15 @@ void setup() {
   //   name: hisense_tv_ir_remote_controller
   //   platform: ESP8266
   //   board: esp8285
-  //   arduino_version: espressif8266@2.6.2
+  //   arduino_version: platformio/espressif8266@2.6.2
   //   build_path: hisense_tv_ir_remote_controller
   //   platformio_options: {}
   //   esp8266_restore_from_flash: false
   //   board_flash_mode: dout
   //   includes: []
   //   libraries: []
-  App.pre_setup("hisense_tv_ir_remote_controller", __DATE__ ", " __TIME__);
+  //   name_add_mac_suffix: false
+  App.pre_setup("hisense_tv_ir_remote_controller", __DATE__ ", " __TIME__, false);
   // switch:
   // binary_sensor:
   // logger:
@@ -158,6 +160,9 @@ void setup() {
   //   - samsung: {}
   //     receiver_id: remote_receiver_remotereceivercomponent
   //     type_id: remote_base_samsungdumper
+  //   - samsung36: {}
+  //     receiver_id: remote_receiver_remotereceivercomponent
+  //     type_id: remote_base_samsung36dumper
   //   - panasonic: {}
   //     receiver_id: remote_receiver_remotereceivercomponent
   //     type_id: remote_base_panasonicdumper
@@ -252,6 +257,8 @@ void setup() {
   remote_receiver_remotereceivercomponent->register_dumper(remote_base_rcswitchdumper);
   remote_base_samsungdumper = new remote_base::SamsungDumper();
   remote_receiver_remotereceivercomponent->register_dumper(remote_base_samsungdumper);
+  remote_base_samsung36dumper = new remote_base::Samsung36Dumper();
+  remote_receiver_remotereceivercomponent->register_dumper(remote_base_samsung36dumper);
   remote_base_panasonicdumper = new remote_base::PanasonicDumper();
   remote_receiver_remotereceivercomponent->register_dumper(remote_base_panasonicdumper);
   App.register_component(remote_receiver_remotereceivercomponent);

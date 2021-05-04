@@ -25,6 +25,7 @@
 #include "esphome/components/remote_base/rc5_protocol.h"
 #include "esphome/components/remote_base/rc_switch_protocol.h"
 #include "esphome/components/remote_base/remote_base.h"
+#include "esphome/components/remote_base/samsung36_protocol.h"
 #include "esphome/components/remote_base/samsung_protocol.h"
 #include "esphome/components/remote_base/sony_protocol.h"
 #include "esphome/components/remote_receiver/remote_receiver.h"
