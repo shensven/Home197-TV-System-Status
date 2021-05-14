@@ -1,2 +1,2 @@
 #pragma once
-#define ESPHOME_VERSION "1.17.0"
+#define ESPHOME_VERSION "1.17.2"
