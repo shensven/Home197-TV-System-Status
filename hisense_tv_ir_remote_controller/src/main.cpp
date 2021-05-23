@@ -77,6 +77,7 @@ void setup() {
   //     id: wifi_wifiap
   //     ap_timeout: 1min
   //   id: wifi_wificomponent
+  //   enable_mdns: true
   //   domain: .local
   //   reboot_timeout: 15min
   //   power_save_mode: NONE
