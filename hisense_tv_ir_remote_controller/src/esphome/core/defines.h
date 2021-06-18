@@ -1,4 +1,5 @@
 #pragma once
+#define ESPHOME_BOARD "esp8285"
 #define USE_API
 #define USE_BINARY_SENSOR
 #define USE_CAPTIVE_PORTAL

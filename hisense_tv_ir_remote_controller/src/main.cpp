@@ -11,17 +11,17 @@ wifi::WiFiComponent *wifi_wificomponent;
 ota::OTAComponent *ota_otacomponent;
 api::APIServer *api_apiserver;
 using namespace api;
-template_::TemplateSwitch *template__templateswitch;
 remote_receiver::RemoteReceiverComponent *remote_receiver_remotereceivercomponent;
 remote_base::JVCDumper *remote_base_jvcdumper;
 remote_transmitter::RemoteTransmitterComponent *remote_transmitter_remotetransmittercomponent;
+template_::TemplateSwitch *template__templateswitch;
 Automation<> *automation_2;
 remote_base::NECAction<> *remote_base_necaction_2;
+Automation<> *automation;
+remote_base::NECAction<> *remote_base_necaction;
 remote_base::LGDumper *remote_base_lgdumper;
 remote_base::NECDumper *remote_base_necdumper;
 remote_base::PioneerDumper *remote_base_pioneerdumper;
-Automation<> *automation;
-remote_base::NECAction<> *remote_base_necaction;
 remote_base::SonyDumper *remote_base_sonydumper;
 remote_base::RawDumper *remote_base_rawdumper;
 remote_base::RC5Dumper *remote_base_rc5dumper;
@@ -173,6 +173,8 @@ void setup() {
   //   filter: 50us
   //   idle: 10ms
   //   memory_blocks: 3
+  remote_receiver_remotereceivercomponent = new remote_receiver::RemoteReceiverComponent(new GPIOPin(14, INPUT, true));
+  remote_base_jvcdumper = new remote_base::JVCDumper();
   // remote_transmitter:
   //   pin:
   //     number: 4
@@ -180,6 +182,9 @@ void setup() {
   //     inverted: false
   //   carrier_duty_percent: 70
   //   id: remote_transmitter_remotetransmittercomponent
+  remote_transmitter_remotetransmittercomponent = new remote_transmitter::RemoteTransmitterComponent(new GPIOPin(4, OUTPUT, false));
+  App.register_component(remote_transmitter_remotetransmittercomponent);
+  remote_transmitter_remotetransmittercomponent->set_carrier_duty_percent(70);
   // switch.template:
   //   platform: template
   //   name: Hisense TV IR Remote Controller
@@ -214,43 +219,38 @@ void setup() {
   //   restore_state: false
   template__templateswitch = new template_::TemplateSwitch();
   App.register_component(template__templateswitch);
-  remote_receiver_remotereceivercomponent = new remote_receiver::RemoteReceiverComponent(new GPIOPin(14, INPUT, true));
-  remote_base_jvcdumper = new remote_base::JVCDumper();
-  remote_transmitter_remotetransmittercomponent = new remote_transmitter::RemoteTransmitterComponent(new GPIOPin(4, OUTPUT, false));
-  App.register_component(remote_transmitter_remotetransmittercomponent);
   App.register_switch(template__templateswitch);
   template__templateswitch->set_name("Hisense TV IR Remote Controller");
   template__templateswitch->set_icon("mdi:led-variant-on");
-  remote_transmitter_remotetransmittercomponent->set_carrier_duty_percent(70);
   automation_2 = new Automation<>(template__templateswitch->get_turn_off_trigger());
   remote_base_necaction_2 = new remote_base::NECAction<>();
   remote_base_necaction_2->set_parent(remote_transmitter_remotetransmittercomponent);
-  remote_receiver_remotereceivercomponent->register_dumper(remote_base_jvcdumper);
-  remote_base_lgdumper = new remote_base::LGDumper();
   remote_base_necaction_2->set_send_times(1);
   remote_base_necaction_2->set_send_wait(50000);
   remote_base_necaction_2->set_address(0xFD);
   remote_base_necaction_2->set_command(0xB04F);
-  remote_receiver_remotereceivercomponent->register_dumper(remote_base_lgdumper);
-  remote_base_necdumper = new remote_base::NECDumper();
   automation_2->add_actions({remote_base_necaction_2});
-  remote_receiver_remotereceivercomponent->register_dumper(remote_base_necdumper);
-  remote_base_pioneerdumper = new remote_base::PioneerDumper();
   automation = new Automation<>(template__templateswitch->get_turn_on_trigger());
   remote_base_necaction = new remote_base::NECAction<>();
   remote_base_necaction->set_parent(remote_transmitter_remotetransmittercomponent);
   remote_base_necaction->set_send_times(1);
-  remote_receiver_remotereceivercomponent->register_dumper(remote_base_pioneerdumper);
-  remote_base_sonydumper = new remote_base::SonyDumper();
   remote_base_necaction->set_send_wait(50000);
   remote_base_necaction->set_address(0xFD);
   remote_base_necaction->set_command(0xB04F);
-  remote_receiver_remotereceivercomponent->register_dumper(remote_base_sonydumper);
-  remote_base_rawdumper = new remote_base::RawDumper();
   automation->add_actions({remote_base_necaction});
   template__templateswitch->set_optimistic(false);
   template__templateswitch->set_assumed_state(false);
   template__templateswitch->set_restore_state(false);
+  remote_receiver_remotereceivercomponent->register_dumper(remote_base_jvcdumper);
+  remote_base_lgdumper = new remote_base::LGDumper();
+  remote_receiver_remotereceivercomponent->register_dumper(remote_base_lgdumper);
+  remote_base_necdumper = new remote_base::NECDumper();
+  remote_receiver_remotereceivercomponent->register_dumper(remote_base_necdumper);
+  remote_base_pioneerdumper = new remote_base::PioneerDumper();
+  remote_receiver_remotereceivercomponent->register_dumper(remote_base_pioneerdumper);
+  remote_base_sonydumper = new remote_base::SonyDumper();
+  remote_receiver_remotereceivercomponent->register_dumper(remote_base_sonydumper);
+  remote_base_rawdumper = new remote_base::RawDumper();
   remote_receiver_remotereceivercomponent->register_dumper(remote_base_rawdumper);
   remote_base_rc5dumper = new remote_base::RC5Dumper();
   remote_receiver_remotereceivercomponent->register_dumper(remote_base_rc5dumper);
