@@ -12,13 +12,14 @@ ota::OTAComponent *ota_otacomponent;
 api::APIServer *api_apiserver;
 using namespace api;
 remote_receiver::RemoteReceiverComponent *remote_receiver_remotereceivercomponent;
-remote_base::JVCDumper *remote_base_jvcdumper;
+remote_base::DishDumper *remote_base_dishdumper;
 remote_transmitter::RemoteTransmitterComponent *remote_transmitter_remotetransmittercomponent;
 template_::TemplateSwitch *template__templateswitch;
 Automation<> *automation_2;
 remote_base::NECAction<> *remote_base_necaction_2;
 Automation<> *automation;
 remote_base::NECAction<> *remote_base_necaction;
+remote_base::JVCDumper *remote_base_jvcdumper;
 remote_base::LGDumper *remote_base_lgdumper;
 remote_base::NECDumper *remote_base_necdumper;
 remote_base::PioneerDumper *remote_base_pioneerdumper;
@@ -28,6 +29,7 @@ remote_base::RC5Dumper *remote_base_rc5dumper;
 remote_base::RCSwitchDumper *remote_base_rcswitchdumper;
 remote_base::SamsungDumper *remote_base_samsungdumper;
 remote_base::Samsung36Dumper *remote_base_samsung36dumper;
+remote_base::ToshibaAcDumper *remote_base_toshibaacdumper;
 remote_base::PanasonicDumper *remote_base_panasonicdumper;
 // ========== AUTO GENERATED INCLUDE BLOCK END ==========="
 
@@ -54,6 +56,7 @@ void setup() {
   //   id: logger_logger
   //   baud_rate: 115200
   //   tx_buffer_size: 512
+  //   deassert_rts_dtr: false
   //   hardware_uart: UART0
   //   level: DEBUG
   //   logs: {}
@@ -134,6 +137,8 @@ void setup() {
   //     inverted: true
   //     mode: INPUT
   //   dump:
+  //   - dish: {}
+  //     type_id: remote_base_dishdumper
   //   - jvc: {}
   //     type_id: remote_base_jvcdumper
   //   - lg: {}
@@ -154,6 +159,8 @@ void setup() {
   //     type_id: remote_base_samsungdumper
   //   - samsung36: {}
   //     type_id: remote_base_samsung36dumper
+  //   - toshiba_ac: {}
+  //     type_id: remote_base_toshibaacdumper
   //   - panasonic: {}
   //     type_id: remote_base_panasonicdumper
   //   id: remote_receiver_remotereceivercomponent
@@ -163,7 +170,7 @@ void setup() {
   //   idle: 10ms
   //   memory_blocks: 3
   remote_receiver_remotereceivercomponent = new remote_receiver::RemoteReceiverComponent(new GPIOPin(14, INPUT, true));
-  remote_base_jvcdumper = new remote_base::JVCDumper();
+  remote_base_dishdumper = new remote_base::DishDumper();
   // remote_transmitter:
   //   pin:
   //     number: 4
@@ -202,6 +209,7 @@ void setup() {
   //       type_id: remote_base_necaction_2
   //     trigger_id: trigger_2
   //     automation_id: automation_2
+  //   disabled_by_default: false
   //   id: template__templateswitch
   //   optimistic: false
   //   assumed_state: false
@@ -210,6 +218,7 @@ void setup() {
   App.register_component(template__templateswitch);
   App.register_switch(template__templateswitch);
   template__templateswitch->set_name("Hisense TV IR Remote Controller");
+  template__templateswitch->set_disabled_by_default(false);
   template__templateswitch->set_icon("mdi:led-variant-on");
   automation_2 = new Automation<>(template__templateswitch->get_turn_off_trigger());
   remote_base_necaction_2 = new remote_base::NECAction<>();
@@ -230,6 +239,7 @@ void setup() {
   template__templateswitch->set_optimistic(false);
   template__templateswitch->set_assumed_state(false);
   template__templateswitch->set_restore_state(false);
+  remote_base_jvcdumper = new remote_base::JVCDumper();
   remote_base_lgdumper = new remote_base::LGDumper();
   remote_base_necdumper = new remote_base::NECDumper();
   remote_base_pioneerdumper = new remote_base::PioneerDumper();
@@ -239,7 +249,9 @@ void setup() {
   remote_base_rcswitchdumper = new remote_base::RCSwitchDumper();
   remote_base_samsungdumper = new remote_base::SamsungDumper();
   remote_base_samsung36dumper = new remote_base::Samsung36Dumper();
+  remote_base_toshibaacdumper = new remote_base::ToshibaAcDumper();
   remote_base_panasonicdumper = new remote_base::PanasonicDumper();
+  remote_receiver_remotereceivercomponent->register_dumper(remote_base_dishdumper);
   remote_receiver_remotereceivercomponent->register_dumper(remote_base_jvcdumper);
   remote_receiver_remotereceivercomponent->register_dumper(remote_base_lgdumper);
   remote_receiver_remotereceivercomponent->register_dumper(remote_base_necdumper);
@@ -250,6 +262,7 @@ void setup() {
   remote_receiver_remotereceivercomponent->register_dumper(remote_base_rcswitchdumper);
   remote_receiver_remotereceivercomponent->register_dumper(remote_base_samsungdumper);
   remote_receiver_remotereceivercomponent->register_dumper(remote_base_samsung36dumper);
+  remote_receiver_remotereceivercomponent->register_dumper(remote_base_toshibaacdumper);
   remote_receiver_remotereceivercomponent->register_dumper(remote_base_panasonicdumper);
   App.register_component(remote_receiver_remotereceivercomponent);
   remote_receiver_remotereceivercomponent->set_tolerance(25);

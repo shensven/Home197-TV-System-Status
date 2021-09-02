@@ -32,6 +32,7 @@ void setup() {
   //   id: logger_logger
   //   baud_rate: 115200
   //   tx_buffer_size: 512
+  //   deassert_rts_dtr: false
   //   hardware_uart: UART0
   //   level: DEBUG
   //   logs: {}
